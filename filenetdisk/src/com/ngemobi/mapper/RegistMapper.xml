@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ngemobi.mapper.RegistMapper">
+	<insert id="insertUser" parameterType="com.ngemobi.bean.User">
+		insert into regist_login(username,password,mail,number)values(#{username},#{password},#{mail},#{number})
+	</insert>	
+	
+	<select id="selectUser" parameterType="string" resultType="com.ngemobi.bean.User">
+	select username,password from regist_login where username=#{value} 
+	</select>
+</mapper>

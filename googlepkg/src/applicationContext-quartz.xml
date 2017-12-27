@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+   		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+<!-- 把QuartzJob管理起来，id随便起名字，但是指定任务类的时候要对上 -->
+<bean id="quartzJob" class="com.ngemobi.bean.QuartJob"></bean>
+<!--  -->
+<bean id="quartzJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <!-- 指定任务类 -->  
+    <property name="targetObject" ref="quartzJob" />  
+    <!-- 指定任务执行的方法 -->  
+    <property name="targetMethod" value="execute" />  
+</bean>
+<!--  -->
+<bean id="quartzJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+    <property name="jobDetail" ref="quartzJobDetail" />  
+    <!-- 每天23运行一次 -->  
+    <property name="cronExpression" value="0 0 12 * * ?" />  
+</bean>  
+  
+<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+    <property name="triggers">  
+        <list>  
+            <ref bean="quartzJobTrigger" />  
+        </list>  
+    </property>  
+</bean>  
+</beans>
